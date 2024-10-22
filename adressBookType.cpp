@@ -1,25 +1,31 @@
-#include "orderedLinkedList.h"  // Include the ordered linked list
-#include "extPersonType.h"       // Include the extPersonType class
+#include "addressBookType.h"
 
-class addressBookType : public orderedLinkedList<extPersonType> {
-public:
-    void addEntry(const extPersonType& person) {
-        insertLast(person);  // Insert person into the linked list
-    }
+// Add new entry interactively
+void addressBookType::addEntry() {
+    extPersonType newPerson;
+    // Get user input for newPerson (e.g., name, birthday, address)
+    std::cout << "Enter first name: ";
+    std::string firstName;
+    std::cin >> firstName;
+    newPerson.setFirstName(firstName);
+    // Continue collecting data for newPerson...
 
-    void deleteEntry(const string& firstName, const string& lastName) {
-        extPersonType person(firstName, lastName);  // Create a dummy extPersonType object
-        deleteNode(person);  // Delete the entry from the linked list
-    }
+    insertLast(newPerson); // Add the new person to the linked list
+}
 
-    extPersonType searchEntry(const string& firstName, const string& lastName) {
-        extPersonType person(firstName, lastName);
-        if (search(person)) {
-            // Logic to return the found person
-        }
-        else {
-            // Handle not found case
-        }
+// Remove entry based on first and last name
+void addressBookType::removeEntry(const std::string& firstName, const std::string& lastName) {
+    extPersonType personToDelete;
+    personToDelete.setFirstName(firstName);
+    personToDelete.setLastName(lastName);
+    deleteNode(personToDelete); // Use deleteNode from the orderedLinkedList
+}
+
+// Save updated information back to the file
+void addressBookType::saveToFile(const std::string& filename) {
+    std::ofstream outfile(filename);
+    for (auto it = begin(); it != end(); ++it) {
+        outfile << *it << std::endl; // Ensure your extPersonType has an overloaded << operator
     }
-    // Other member functions...
-};
+    outfile.close();
+}

@@ -77,4 +77,37 @@ int main() {
     } while (choice != 5);
 
     return 0;
+    int main() {
+        addressBookType myAddressBook;
+        // Initialize and load existing data...
+
+        bool running = true;
+        while (running) {
+            int choice;
+            std::cout << "1. Add Entry\n2. Remove Entry\n3. Exit\n";
+            std::cin >> choice;
+
+            switch (choice) {
+            case 1:
+                myAddressBook.addEntry();
+                break;
+            case 2: {
+                std::string firstName, lastName;
+                std::cout << "Enter first name: ";
+                std::cin >> firstName;
+                std::cout << "Enter last name: ";
+                std::cin >> lastName;
+                myAddressBook.removeEntry(firstName, lastName);
+                break;
+            }
+            case 3:
+                myAddressBook.saveToFile("AddressBookData.txt"); // Save before exit
+                running = false;
+                break;
+            default:
+                std::cout << "Invalid option. Please try again.\n";
+            }
+        }
+        return 0;
+    }
 }
