@@ -1,79 +1,25 @@
-#include "addressBookType.h"
-#include <iostream>
-#include <algorithm>  // For std::swap
+#include "orderedLinkedList.h"  // Include the ordered linked list
+#include "extPersonType.h"       // Include the extPersonType class
 
-addressBookType::addressBookType(int size) {
-    maxSize = size;
-    length = 0;
-    addressList = new extPersonType[maxSize];
-}
-
-addressBookType::~addressBookType() {
-    delete[] addressList;
-}
-
-void addressBookType::initEntry(std::ifstream& infile) {
-    extPersonType person;
-    while (infile >> person && length < maxSize) {
-        addEntry(person);
+class addressBookType : public orderedLinkedList<extPersonType> {
+public:
+    void addEntry(const extPersonType& person) {
+        insertLast(person);  // Insert person into the linked list
     }
-}
 
-void addressBookType::addEntry(const extPersonType& person) {
-    if (length < maxSize) {
-        addressList[length] = person;
-        length++;
+    void deleteEntry(const string& firstName, const string& lastName) {
+        extPersonType person(firstName, lastName);  // Create a dummy extPersonType object
+        deleteNode(person);  // Delete the entry from the linked list
     }
-    else {
-        std::cerr << "Address book is full!\n";
-    }
-}
 
-void addressBookType::findPerson(const std::string& lastName) const {
-    for (int i = 0; i < length; i++) {
-        if (addressList[i].getLastName() == lastName) {
-            addressList[i].print();
-            return;
+    extPersonType searchEntry(const string& firstName, const string& lastName) {
+        extPersonType person(firstName, lastName);
+        if (search(person)) {
+            // Logic to return the found person
+        }
+        else {
+            // Handle not found case
         }
     }
-    std::cout << "Person not found!\n";
-}
-
-void addressBookType::findBirthdays(int month) const {
-    for (int i = 0; i < length; i++) {
-        if (addressList[i].getBirthMonth() == month) {
-            addressList[i].print();
-        }
-    }
-}
-
-void addressBookType::findRelations(const std::string& relation) const {
-    for (int i = 0; i < length; i++) {
-        if (addressList[i].getRelation() == relation) {
-            addressList[i].print();
-        }
-    }
-}
-
-void addressBookType::print() const {
-    for (int i = 0; i < length; i++) {
-        addressList[i].print();
-    }
-}
-
-void addressBookType::sortEntries() {
-    for (int current = 1; current < length; current++) {
-        int index = current;
-        bool placeFound = false;
-
-        while (index > 0 && !placeFound) {
-            if (addressList[index].getLastName() < addressList[index - 1].getLastName()) {
-                std::swap(addressList[index], addressList[index - 1]);
-                index--;
-            }
-            else {
-                placeFound = true;
-            }
-        }
-    }
-}
+    // Other member functions...
+};

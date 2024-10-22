@@ -2,17 +2,14 @@
 #define ADDRESSBOOKTYPE_H
 
 #include "extPersonType.h"
+#include "orderedLinkedList.h"  // Include the linked list class
 #include <fstream>
+#include <string>
 
-class addressBookType {
-private:
-    extPersonType* addressList;  // Dynamic array of extPersonType objects
-    int length;                  // Current number of entries
-    int maxSize;                 // Maximum number of entries
-
+class addressBookType : public orderedLinkedList<extPersonType> {
 public:
-    addressBookType(int size = 500);    // Constructor
-    ~addressBookType();                 // Destructor
+    addressBookType();    // Constructor
+    ~addressBookType();   // Destructor
 
     void initEntry(std::ifstream& infile);  // Initialize from file
     void addEntry(const extPersonType& person);  // Add entry to the address book
@@ -20,7 +17,7 @@ public:
     void findBirthdays(int month) const;  // Find people by birth month
     void findRelations(const std::string& relation) const;  // Find people by relationship
     void print() const;  // Print all entries
-    void sortEntries();   // Sort the entries alphabetically by last name
+    void sortEntries();   // Sort the entries alphabetically by last name (implemented in linked list)
 };
 
 #endif

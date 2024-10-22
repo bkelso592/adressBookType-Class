@@ -1,7 +1,17 @@
-#include <iostream>
-#include <fstream>
-#include <string>
+#include "linkedList.h"
+#include "orderedLinkedList.h"
+#include "extPersonType.h"
 #include "addressBookType.h"
+#include <iostream>
+#include <fstream>  // For file handling
+using namespace std;
+
+int main() {
+    // Implement the logic to load data from AddressBookData.txt 
+    // and use the linked list-based addressBookType
+
+    return 0;
+}
 
 void showMenu() {
     std::cout << "On-line Address Book\n";
@@ -17,11 +27,11 @@ int main() {
     addressBookType addressBook;
 
     // Read data from the AddressBookData.txt resource file
-    std::ifstream infile("AddressBookData.txt");
-
-    if (!infile) {
-        std::cerr << "Error: Could not open the AddressBookData.txt file." << std::endl;
-        return 1;
+    ifstream inFile;
+    inFile.open(R"(AddressBookData.txt)");
+    if (!inFile) {
+        cerr << "Unable to open file AddressBookData.txt";
+        exit(1);   // Call system to stop if file doesn't open
     }
 
     // Initialize the addressBook from the file
